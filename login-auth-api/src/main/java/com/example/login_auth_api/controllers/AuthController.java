@@ -1,7 +1,7 @@
 package com.example.login_auth_api.controllers;
 
 import com.example.login_auth_api.domain.user.User;
-import com.example.login_auth_api.dto.LoginRequestTO;
+import com.example.login_auth_api.dto.LoginRequestDTO;
 import com.example.login_auth_api.dto.RegisterRequestDTO;
 import com.example.login_auth_api.dto.ResponseDTO;
 import com.example.login_auth_api.infra.security.TokenService;
@@ -26,7 +26,7 @@ public class AuthController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestTO body){
+    public ResponseEntity login(@RequestBody LoginRequestDTO body){
         User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
         if(passwordEncoder.matches(body.password(), user.getPassword())){
             String token = this.tokenService.generateToken(user);
